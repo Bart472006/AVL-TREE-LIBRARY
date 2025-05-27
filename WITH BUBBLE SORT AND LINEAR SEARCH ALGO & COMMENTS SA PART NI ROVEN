@@ -260,28 +260,6 @@ void displayAllByAuthor(AVLNode* root) {
     }
 }
 
-// Linear search for books by author (case-insensitive)
-// Displays author outside the box, then the rest of the info in a box
-void searchByAuthor(AVLNode* root, const string& author, bool& found) {
-    if (!root) return;
-    // Check if the current node's author matches the search term
-    if (toLower(root->book.author) == toLower(author)) {
-        found = true;
-        // Author outside the box
-        cout << "\n\t\t\t\t\t\t\tAuthor: " << root->book.author << endl;
-        // Boxed book info (excluding author)
-        cout << "\t\t\t\t\t\t\t-------------------------------\n";
-        cout << "\t\t\t\t\t\t\tTitle: " << root->book.title << "\n";
-        cout << "\t\t\t\t\t\t\tPublisher: " << root->book.publisher << "\n";
-        cout << "\t\t\t\t\t\t\tDate: " << root->book.month << " " << root->book.day << ", " << root->book.year << "\n";
-        cout << "\t\t\t\t\t\t\tISBN: " << root->book.isbn << "\n";
-        cout << "\t\t\t\t\t\t\tCategory: " << root->book.category << "\n";
-        cout << "\t\t\t\t\t\t\tCall Number: " << root->book.callNumber << "\n";
-    }
-    // Recursively search left and right subtrees
-    searchByAuthor(root->left, author, found);
-    searchByAuthor(root->right, author, found);
-}
 
 void searchBooks(AVLNode *root, const string &keyword, bool &found)
 {
@@ -385,8 +363,7 @@ void menu(AVLNode *&root)
     cout << "\t\t\t\t\t\t\t\t3. Add a book" << endl;
     cout << "\t\t\t\t\t\t\t\t4. Remove a book" << endl;
     cout << "\t\t\t\t\t\t\t\t5. View all books sorted by author" << endl;
-    cout << "\t\t\t\t\t\t\t\t6. Enter author to search:" << endl;
-    cout << "\t\t\t\t\t\t\t\t7. Exit" << endl;
+    cout << "\t\t\t\t\t\t\t\t6. Exit" << endl;
     cout << "\t\t\t\t\t\t\t|-=================================-|" << endl;
     cout << "\t\t\t\t\t\t\t\tChoose an option: ";
     cin >> choice;
@@ -478,20 +455,6 @@ getline(cin, b.callNumber);  // last input
         break;
 
     case 6:
-        cout << "\nEnter author to search: ";
-        getline(cin, keyword);
-        {
-            bool found = false;
-            searchByAuthor(root, keyword, found);
-            if (!found)
-                cout << "No books found for that author.\n";
-        }
-        cout << "Press Enter to continue.";
-        cin.get();
-        system("clear");
-        break;
-
-    case 7:
         cout << "Exiting..." << endl;
         this_thread::sleep_for(chrono::seconds(2));
         exit(0);
