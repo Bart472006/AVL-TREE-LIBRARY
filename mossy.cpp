@@ -174,27 +174,27 @@ AVLNode *deleteNode(AVLNode *root, string title)
     return root;
 }
 
-void displayBook(const Book &book)
+void displayBook(const Book &book)  // takes a book struct by reference and does not modify it
 {
     cout << "\t\t\t\t\t\t\t-------------------------------\n";
-    cout << "\t\t\t\t\t\t\tTitle: " << book.title << "\n";
+    cout << "\t\t\t\t\t\t\tTitle: " << book.title << "\n"; // prints each attribute of the book
     cout << "\t\t\t\t\t\t\tAuthor: " << book.author << "\n";
     cout << "\t\t\t\t\t\t\tPublisher: " << book.publisher << "\n";
     cout << "\t\t\t\t\t\t\tDate: " << book.month << " " << book.day << ", " << book.year << "\n";
     cout << "\t\t\t\t\t\t\tISBN: " << book.isbn << "\n";
     cout << "\t\t\t\t\t\t\tCategory: " << book.category << "\n";
-    cout << "\t\t\t\t\t\t\tCall Number: " << book.callNumber << "\n";  // last displayed
+    cout << "\t\t\t\t\t\t\tCall Number: " << book.callNumber << "\n"; 
 }
 
 void searchBooks(AVLNode *root, const string &keyword, bool &found)
 {
     if (!root)
-        return;
+        return;  // If root is null, then exit the function
     string kw = toLower(keyword);
-    Book &bk = root->book;
-    bool match =
-        toLower(bk.title).find(kw) != string::npos ||
-        toLower(bk.author).find(kw) != string::npos ||
+    Book &bk = root->book;    //creates a reference bk to the book
+    bool match =  //checks to find the lowercase version of the kw
+        toLower(bk.title).find(kw) != string::npos ||   // string::npos means not found
+        toLower(bk.author).find(kw) != string::npos ||  // so if find does not equal to stringpos it means it is found
         toLower(bk.publisher).find(kw) != string::npos ||
         toLower(bk.month).find(kw) != string::npos ||
         toLower(bk.day).find(kw) != string::npos ||
@@ -203,17 +203,17 @@ void searchBooks(AVLNode *root, const string &keyword, bool &found)
         toLower(bk.category).find(kw) != string::npos;
     if (match)
     {
-        displayBook(bk);
+        displayBook(bk);   // checks if the boo0k is found, then displas the content
         found = true;
     }
-    searchBooks(root->left, keyword, found);
+    searchBooks(root->left, keyword, found); //The function calls itself to continue searching in the left and right subtrees of the current node.
     searchBooks(root->right, keyword, found);
 }
 
 void displayAll(AVLNode *root)
 {
     if (!root)
-        return;
+        return;   // If root is null, then exit the function
     displayAll(root->left);
     displayBook(root->book);
     displayAll(root->right);
